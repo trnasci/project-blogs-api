@@ -9,7 +9,7 @@ const createValidation = Joi.object({
   displayName: Joi.string().min(8).max(45).required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(6).max(45).required(),
-  image: Joi.string().min(6),
+  image: Joi.string(),
 });
 
 const getByEmail = (email) => User.findOne({ where: { email } });
@@ -38,7 +38,12 @@ const createUser = async (displayName, email, password, image) => {
   return token;
 };
 
-const getUsers = () => User.findAll();
+const getUsers = async () => {
+  const users = await User.findAll({
+    attributes: { exclude: ['password'] },
+  });
+  return users;
+};
 
 const getByUserId = (userId) => User.findByPk(userId);
 
