@@ -8,7 +8,7 @@ const createCategory = async (name) => {
     const err = { status: 400, message: '"name" is required' };
     throw err;    
   }     
-  await Category.create(name);
+  await Category.create({ name });
   const newCategory = await getByName(name);
 
   return newCategory;
